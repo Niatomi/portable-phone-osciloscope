@@ -24,18 +24,30 @@ document.addEventListener('deviceready', onDeviceReady, false);
 let ctx
 
 function onDeviceReady() {
-    // Cordova is now initialized. Have fun!
 
     canvas = document.getElementById('canvas')
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight - 10
     ctx = canvas.getContext("2d")
 
+    const serialDataProxy = init_proxy_generator((target, key, value) => {
+      target[key] = value
+      return true
+    })
+  
+    setInterval(function() {
+      serialDataProxy.current_value = Math.round(Math.random() * (5 + 5) - 5)
+      serialDataProxy.min_u_value = 5
+      serialDataProxy.max_u_value = 5
+    }, 100);
+
     window.addEventListener('touchmove', (event) => {
-      let touch = event.changedTouches[0]
-      ctx.fillStyle = "green"
+      console.log(event);
+      let touches = event.changedTouches
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight - 10)
-      ctx.fillRect(touch.clientX - 20, touch.clientY - 20, 100, 100);
-      console.log(touch)
+      for (let touch of touches) {
+        ctx.fillStyle = "green"
+        ctx.fillRect(touch.clientX - 50, touch.clientY - 50, 100, 100);
+      }
     })
 }

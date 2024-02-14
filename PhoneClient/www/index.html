@@ -31,14 +31,19 @@
         <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
         <meta name="color-scheme" content="light dark">
         <link rel="stylesheet" href="css/index.css">
-        <title>Hello World</title>
+        <title>Osciloscope Phone Client</title>
     </head>
     <body>
         <canvas id="canvas"></canvas>
         <script src="cordova.js"></script>
-        <script src="js/index.js"></script>
+
+        <script type="text/javascript" src="js/osciloscope/osciloscope-display.js"></script>
+        <script type="text/javascript" src="js/osciloscope/osciloscope-controls"></script>
+        <script type="text/javascript" src="js/osciloscope/osciloscope.js"></script>
+        <script type="text/javascript" src="js/serialProxyGenerator.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
     </body>
 </html>
