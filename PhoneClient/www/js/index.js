@@ -30,24 +30,31 @@ function onDeviceReady() {
     canvas.height = window.innerHeight - 10
     ctx = canvas.getContext("2d")
 
-    const serialDataProxy = init_proxy_generator((target, key, value) => {
+    const o = new Osciloscope(
+      ctx, 
+      canvas.width, 
+      canvas.height)
+
+    const proxy = (target, key, value) => {
       target[key] = value
+      o.redraw()
       return true
-    })
+    }
+    const serialDataProxy = init_proxy_generator(proxy)
+    serialDataProxy.min_u_value = -5
+    serialDataProxy.max_u_value = 5
   
     setInterval(function() {
       serialDataProxy.current_value = Math.round(Math.random() * (5 + 5) - 5)
-      serialDataProxy.min_u_value = 5
-      serialDataProxy.max_u_value = 5
     }, 100);
 
     window.addEventListener('touchmove', (event) => {
-      console.log(event);
+      o.redraw()
       let touches = event.changedTouches
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight - 10)
-      for (let touch of touches) {
-        ctx.fillStyle = "green"
-        ctx.fillRect(touch.clientX - 50, touch.clientY - 50, 100, 100);
+      if (serialDataProxy.max_u_value < 100) {
+        serialDataProxy.max_u_value += 1
+        serialDataProxy.min_u_value -= 1
       }
+
     })
 }
