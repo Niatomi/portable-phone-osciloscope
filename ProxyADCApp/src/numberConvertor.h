@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include "config.h"
 
 void convertNumber(double value, byte payload[])
 {
@@ -21,4 +22,12 @@ void convertNumber(double value, byte payload[])
 
     payload[5] = firstTwo;
     payload[6] = secondTwo;
+
+#if SHOW_CONVERTOR
+    Serial.println(value);
+    Serial.println(intpart);
+    Serial.println(firstTwo);
+    Serial.println(secondTwo);
+    Serial.println();
+#endif
 }
