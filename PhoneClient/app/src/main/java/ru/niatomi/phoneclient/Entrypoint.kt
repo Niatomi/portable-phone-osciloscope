@@ -3,14 +3,17 @@ package ru.niatomi.phoneclient
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.currentRecomposeScope
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.hoho.android.usbserial.driver.UsbSerialPort
 import kotlinx.coroutines.delay
 import ru.niatomi.phoneclient.components.DevBar
+import ru.niatomi.phoneclient.screens.Oscilloscope
 import ru.niatomi.phoneclient.utils.FrameParser
 import ru.niatomi.phoneclient.utils.RingBuffer
 import java.time.Instant
@@ -30,22 +33,34 @@ fun Entrypoint(
         mutableStateOf(ByteArray(size = 8))
     }
 
-    LaunchedEffect(true) {
+    LaunchedEffect(key1 = currentFrame) {
         while (true) {
-            delay(90)
+            delay(20)
             val buffer = ByteArray(size = 8)
             port.read(buffer, 1);
             Log.d("SERIAL", buffer.contentToString())
             Log.d("SERIAL-PARSE", FrameParser.parse(buffer).toString())
-            currentFrame.value = buffer
-            recentInstantTimeTake.value = Instant.now()
-            rf.value.add(Pair(recentInstantTimeTake.value, FrameParser.parse(buffer)))
+            var value = FrameParser.parse(buffer)
+            if (value == 0.0) {
+                recentInstantTimeTake.value = Instant.now()
+                val clone = rf.value.clone()
+                clone.add(Pair(recentInstantTimeTake.value, FrameParser.parse(currentFrame.value)))
+                rf.value = clone
+            } else {
+                currentFrame.value = buffer
+                recentInstantTimeTake.value = Instant.now()
+                val clone = rf.value.clone()
+                clone.add(Pair(recentInstantTimeTake.value, FrameParser.parse(buffer)))
+                rf.value = clone
+            }
         }
     }
     Column {
-       DevBar(
+        Oscilloscope(ringBuffer = rf)
+        DevBar(
             instantTime = recentInstantTimeTake,
-            byteFrame = currentFrame)
+            byteFrame = currentFrame
+        )
     }
 }
 
