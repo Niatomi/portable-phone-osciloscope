@@ -5,11 +5,12 @@
 
 #if DEV
 // variable for signal generators
-double x = 0.0;
+double x = -1.0;
+bool isNegative = false;
 #include "signalGenerators.h"
 #endif
 
-#define SERIAL_BAUDRATE 115200
+#define SERIAL_BAUDRATE 9600
 #define VERSION_BYTE 0
 
 // Description of Payload
@@ -39,6 +40,7 @@ void setup()
 {
     pinMode(LED_BUILTIN, OUTPUT);
     Serial.begin(SERIAL_BAUDRATE);
+    Serial.flush();
 }
 
 void loop()
@@ -48,7 +50,21 @@ void loop()
     signalValue = sinwave(x);
     x += 0.1;
 #endif
-    convertNumber(signalValue, ADCPayload);
+    // convertNumber(signalValue, ADCPayload);
+    Serial.flush();
+    Serial.write(0);
+    Serial.write(0);
+    Serial.write(0);
+    if (signalValue < 0)
+    {
+        Serial.write(1);
+    }
+    else
+    {
+        Serial.write(0);
+    }
+    Serial.write(abs((int)signalValue));
+    Serial.write(abs((int)((signalValue - (int)signalValue) * 100)));
     sendPayload(ADCPayload);
-    delay(100);
+    delay(50);
 }
