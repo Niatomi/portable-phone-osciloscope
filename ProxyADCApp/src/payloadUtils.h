@@ -9,7 +9,6 @@ int sendPayload(byte payload[])
     for (int i = 0; i < 8; i++)
     {
         Serial.write(payload[i]);
-        Serial.write("\x00");
     }
 
     return 0;
