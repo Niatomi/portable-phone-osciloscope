@@ -11,6 +11,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven(url = "https://jitpack.io")
+        maven("https://packages.jetbrains.team/maven/p/kds/kotlin-ds-maven")
     }
 }
 
