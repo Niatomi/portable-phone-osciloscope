@@ -31,6 +31,12 @@ fun ScreenSwitcher(navController: NavController) {
             Button(onClick = { navController.navigate(Screens.DEFAULT_SCREEN.route) }) {
                 Text(text = "OSC")
             }
+            Button(onClick = { navController.navigate(Screens.DEFAULT_SCREEN.route) }) {
+                Text(text = "csv")
+            }
+            Button(onClick = { navController.navigate(Screens.DEFAULT_SCREEN.route) }) {
+                Text(text = "xlsx")
+            }
             Button(onClick = { navController.navigate(Screens.FFT.route) }) {
                 Text(text = "FFT")
             }
