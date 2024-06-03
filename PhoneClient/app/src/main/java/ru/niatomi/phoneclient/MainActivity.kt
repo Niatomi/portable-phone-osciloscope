@@ -13,21 +13,21 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getSystemService(Context.USB_SERVICE)
-        val manager = getSystemService(Context.USB_SERVICE) as UsbManager
-        val availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(manager)
-        val driver = availableDrivers[0]
-        val connection = manager.openDevice(driver.device)
-            ?:
-            return
-
-        val port = driver.ports.get(0)
-        port.open(connection)
-        port.setParameters(9600, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
+//        getSystemService(Context.USB_SERVICE)
+//        val manager = getSystemService(Context.USB_SERVICE) as UsbManager
+//        val availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(manager)
+//        val driver = availableDrivers[0]
+//        val connection = manager.openDevice(driver.device)
+//            ?:
+//            return
+//
+//        val port = driver.ports.get(0)
+//        port.open(connection)
+//        port.setParameters(9600, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
 
         setContent {
-            Entrypoint(port = port)
-//            Entrypoint()
+//            Entrypoint(port = port)
+            Entrypoint()
         }
     }
 

@@ -13,6 +13,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +28,18 @@ import java.time.Instant
 fun Oscilloscope(
     ringBuffer: MutableState<RingBuffer<Pair<Instant, Double>>>
 ) {
+
+    val plusOperator = remember {
+        mutableFloatStateOf(0.0f)
+    }
+    val mulOperator = remember {
+        mutableFloatStateOf(1.0f)
+    }
+    val divOperator = remember {
+        mutableFloatStateOf(1.0f)
+    }
+
+
     Box(modifier = Modifier
         .fillMaxWidth()
         .fillMaxHeight(1f)
@@ -39,7 +54,7 @@ fun Oscilloscope(
         ) {
             XYCanvas(
                 x = ringBuffer.value.map { it.first.nano }.toMutableList(),
-                y = ringBuffer.value.map { it.second }.toMutableList(),
+                y = ringBuffer.value.map { it.second * mulOperator.value / divOperator.value + plusOperator.value }.toMutableList(),
                 gridYValue = 2.0,
                 stepY = 50.0
             )
@@ -50,16 +65,24 @@ fun Oscilloscope(
                 Arrangement.SpaceBetween,
                 Alignment.CenterVertically
             ) {
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = {
+                    plusOperator.value += 0.1f;
+                }) {
                     Text(text = "+")
                 }
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = {
+                    plusOperator.value -= 0.1f;
+                }) {
                     Text(text = "-")
                 }
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = {
+                    mulOperator.value += 1
+                }) {
                     Text(text = "*")
                 }
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = {
+                    divOperator.value += 1.01f;
+                }) {
                     Text(text = "/")
                 }
             }

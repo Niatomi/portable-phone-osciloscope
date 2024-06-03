@@ -1,7 +1,6 @@
 package ru.niatomi.phoneclient
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,14 +10,13 @@ import com.hoho.android.usbserial.driver.UsbSerialPort
 import kotlinx.coroutines.delay
 import ru.niatomi.phoneclient.navigation.Navigation
 import ru.niatomi.phoneclient.utils.RingBuffer
-import java.io.IOException
 import java.time.Instant
 import kotlin.math.PI
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Entrypoint(
-    port: UsbSerialPort,
+//    port: UsbSerialPort,
 ) {
     val recentInstantTimeTake = remember {
         mutableStateOf(Instant.now())
@@ -39,7 +37,7 @@ fun Entrypoint(
             clone.add(Pair(recentInstantTimeTake.value, value))
             rf.value = clone
             val buffer = ByteArray(size = 8)
-            port.read(buffer, 1);
+//            port.read(buffer, 1);
             delay(50)
             x += 0.1
 //            Log.d("SERIAL", buffer.contentToString())
