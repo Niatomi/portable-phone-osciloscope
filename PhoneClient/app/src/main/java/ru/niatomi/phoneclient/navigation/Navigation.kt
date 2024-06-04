@@ -35,6 +35,6 @@ fun Navigation(ringBuffer: MutableState<RingBuffer<Pair<Instant, Double>>>) {
                 composable(route = Screens.FFT.route) { FFT(ringBuffer = ringBuffer) }
             }
         }
-        ScreenSwitcher(navController)
+        ScreenSwitcher(navController, ringBuffer)
     }
 }
