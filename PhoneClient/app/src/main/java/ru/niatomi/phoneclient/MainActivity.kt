@@ -26,7 +26,6 @@ class MainActivity : ComponentActivity() {
 //        port.setParameters(9600, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
 
         setContent {
-//            Entrypoint(port = port)
             Entrypoint()
         }
     }
